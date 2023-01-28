@@ -1,0 +1,32 @@
+{
+  "name": "electron-soundboard",
+  "version": "0.0.1",
+  "description": "Soundboard created in JavaScript",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/smaartscz/electron-soundboard"
+  },
+  "keywords": [
+    "electron",
+    "soundboard"
+  ],
+  "author": "smaartscz",
+  "license": "CC0 1.0 Universal",
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.4",
+    "@electron-forge/maker-deb": "^6.0.4",
+    "@electron-forge/maker-rpm": "^6.0.4",
+    "@electron-forge/maker-squirrel": "^6.0.4",
+    "@electron-forge/maker-zip": "^6.0.4",
+    "electron": "^22.1.0"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0"
+  }
+}
