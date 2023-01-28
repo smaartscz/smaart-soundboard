@@ -27,6 +27,13 @@
     "electron": "^22.1.0"
   },
   "dependencies": {
+    "electron-builder": "^23.6.0",
     "electron-squirrel-startup": "^1.0.0"
   }
+  "build": {
+  "appId": "smaart.soundboard",
+  "mac": {
+    "category": "voicechat.soundboard"
+  }
+}
 }
