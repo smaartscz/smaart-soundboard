@@ -3,3 +3,4 @@ forge.config.js
 *.mp3
 out/
 node_modules/
+dist/

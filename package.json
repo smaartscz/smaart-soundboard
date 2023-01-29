@@ -1,23 +1,25 @@
 {
-  "name": "electron-soundboard",
-  "version": "0.0.1",
+  "name": "smaart-soundboard",
+  "version": "0.0.2",
   "description": "Soundboard created in JavaScript",
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/smaartscz/electron-soundboard"
+    "url": "git+https://github.com/smaartscz/electron-soundboard.git"
   },
   "keywords": [
     "electron",
     "soundboard"
   ],
   "author": "smaartscz",
-  "license": "CC0 1.0 Universal",
+  "license": "CC0-1.0",
   "devDependencies": {
     "@electron-forge/cli": "^6.0.4",
     "@electron-forge/maker-deb": "^6.0.4",
@@ -27,14 +29,16 @@
     "electron": "^22.1.0"
   },
   "dependencies": {
-    "electron-builder": "^23.6.0",
-    "electron-squirrel-startup": "^1.0.0",
-    "require": "^2.4.20"
+    "electron-squirrel-startup": "^1.0.0"
   },
   "build": {
     "appId": "smaart.soundboard",
     "mac": {
       "category": "voicechat.soundboard"
     }
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/smaartscz/electron-soundboard/issues"
+  },
+  "homepage": "https://github.com/smaartscz/electron-soundboard#readme"
 }
