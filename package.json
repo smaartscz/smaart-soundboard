@@ -1,8 +1,8 @@
 {
-  "name": "smaart-soundboard",
-  "version": "0.0.2",
+  "name": "Smaart_soundboard",
+  "version": "0.1.0",
   "description": "Soundboard created in JavaScript",
-  "main": "main.js",
+  "main": "app.js",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
@@ -33,8 +33,9 @@
   },
   "build": {
     "appId": "smaart.soundboard",
-    "mac": {
-      "category": "voicechat.soundboard"
+    "win":{
+    "icon": "/img/icon.png"
+
     }
   },
   "bugs": {

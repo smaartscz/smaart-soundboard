@@ -2,8 +2,9 @@ const { app, BrowserWindow } = require('electron')
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1892,
+    height: 301,
+    autoHideMenuBar: true,
   })
 
   win.loadFile('./src/index.html')
