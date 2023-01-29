@@ -13,8 +13,11 @@ Depending on your expectations you can run index.html via your browser or you ca
 You need to have installed electron and electron-forge. Hopefully it will install required dependencies automatically.
 ## Build
 You need to run a few commands.
+
 `npm install --save-dev @electron-forge/cli`
+
 `npx electron-forge import`
+
 `npm run make`
 
 # Sources
