@@ -1,9 +1,9 @@
-# ⚠ This is prototype!
+# ⚠ This is very early prototype! ⚠
 # Soundboard based on JavaScript and Electron
 
 ![Image1](img/img1.png)
 ## Quick intro
-Everyone wants to play sound on voice chat, but every soundboard didn't met my expectations so I decided to make my own(sort of).
+Everyone wants to play funny sound effects in voice chat, but every soundboard I found didn't met my expectations so I decided to make my own(sort of).
 Currently it's very early build but maybe if I gave it more time and some polishing this can meet my expectations for ideal soundboard.
 
 GUI is based on my [Wemos voicemeeter soundboard](https://github.com/smaartscz/Wemos-Voicemeeter/) but it's made to work independently.
@@ -13,8 +13,11 @@ Depending on your expectations you can run index.html via your browser or you ca
 You need to have installed electron and electron-forge. Hopefully it will install required dependencies automatically.
 ## Build
 You need to run a few commands.
+
 `npm install --save-dev @electron-forge/cli`
+
 `npx electron-forge import`
+
 `npm run make`
 
 # Sources
