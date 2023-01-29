@@ -1,4 +1,4 @@
-# ⚠ This is very early prototype!
+# ⚠ This is very early prototype! ⚠
 # Soundboard based on JavaScript and Electron
 
 ![Image1](img/img1.png)
