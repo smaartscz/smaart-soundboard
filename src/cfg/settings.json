@@ -1,0 +1,22 @@
+[
+{
+    "name":"Jiří Kára", 
+    "files":["delej.mp3", "drzhubu.mp3", "samozrejme.mp3"],
+    "fancy":["Dělej", "Drž hubu", "Samozřejmě"]
+},
+{
+    "name":"Ptácek", 
+    "files":["tyzmrde.mp3", "lizani.mp3", "nerikejmizmrde.mp3"],
+    "fancy":["Ty zmrde", "Lízání", "Neříkej mi zmrde"]
+},
+{
+    "name":"Lochy", 
+    "files":["jednadvetri.mp3", "dychani.mp3", "takjajsemopetzde.mp3"],
+    "fancy":["Jedna, dvě, tři", "Dýchání", "Tak já jsem opět zde"]
+},
+{
+    "name":"Svarta", 
+    "files":["delejdelej.mp3", "notaktojsemnevidel.mp3", "svartajetineco.mp3", "hovno.mp3", "jemuhodne.mp3"],
+    "fancy":["Dělej dělej", "No tak to jsem neviděl", "Svarta, je ti něco?", "Hovno", "Je mu hodně"]
+}
+]
