@@ -19,7 +19,3 @@ You need to run a few commands.
 `npx electron-forge import`
 
 `npm run make`
-
-# Sources
-- [Create a Sound Board in 3 lines of code](https://dev.to/aneeqakhan/create-a-sound-board-in-3-lines-of-code-3ho8)
-
