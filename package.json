@@ -1,6 +1,6 @@
 {
-  "name": "Smaart_soundboard",
-  "version": "0.1.0",
+  "name": "smaart_soundboard",
+  "version": "0.2.0",
   "description": "Soundboard created in JavaScript",
   "main": "app.js",
   "scripts": {
@@ -26,16 +26,17 @@
     "@electron-forge/maker-rpm": "^6.0.4",
     "@electron-forge/maker-squirrel": "^6.0.4",
     "@electron-forge/maker-zip": "^6.0.4",
+    "electron-builder": "^23.6.0",
     "electron": "^22.1.0"
   },
   "dependencies": {
+    "electron-json-storage": "^4.6.0",
     "electron-squirrel-startup": "^1.0.0"
   },
   "build": {
     "appId": "smaart.soundboard",
-    "win":{
-    "icon": "/img/icon.png"
-
+    "win": {
+      "icon": "/img/icon.png"
     }
   },
   "bugs": {
