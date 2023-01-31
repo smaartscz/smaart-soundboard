@@ -10,6 +10,7 @@ GUI is based on my [Wemos voicemeeter soundboard](https://github.com/smaartscz/W
 
 # Requirements
 Depending on your expectations you can run index.html via your browser or you can have a standalone app.
+Or if you are feeling extra fancy, you can upload files from src/ and host it on the web! :)
 You need to have installed electron and electron-forge. Hopefully it will install required dependencies automatically.
 ## Build
 You need to run a few commands.
