@@ -40,8 +40,12 @@
     },
     "extraResources": [
       {
-        "from": "src/",
-        "to": "../"
+        "from": "src/audio",
+        "to": "../audio"
+      },
+      {
+        "from": "src/cfg",
+        "to": "../cfg"
       }
     ]
   },

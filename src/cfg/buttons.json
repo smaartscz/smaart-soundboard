@@ -1,1 +1,141 @@
-[{"name":"Jiří Kára","files":["delej.mp3","drzhubu.mp3","samozrejme.mp3"],"fancy":["Dělej","Drž hubu","Samozřejmě"]},{"name":"Ptácek","files":["tyzmrde.mp3","lizani.mp3","nerikejmizmrde.mp3"],"fancy":["Ty zmrde","Lízání","Neříkej mi zmrde"]},{"name":"Lochy","files":["jednadvetri.mp3","dychani.mp3","takjajsemopetzde.mp3"],"fancy":["Jedna, dvě, tři","Dýchání","Tak já jsem opět zde"]},{"name":"Svarta","files":["delejdelej.mp3","notaktojsemnevidel.mp3","svartajetineco.mp3","hovno.mp3","jemuhodne.mp3"],"fancy":["Dělej dělej","No tak to jsem neviděl","Svarta, je ti něco?","Hovno","Je mu hodně"]},{"name":"Reakce","files":["noice.mp3","benno.mp3","benyes.mp3","ben.mp3","notaktone.mp3","bruh.mp3","skillissue.mp3","somsadosral.mp3","dopici.mp3","anime.mp3","jatojebu.mp3","cotijebe.mp3","oof.mp3","cunt.mp3","stetka.mp3","spit.mp3","zeus.mp3"],"fancy":["Noice","Ben - No","Ben - Yes","Ben?","No tak to ne","Bruh","Skill issue","Som sa dosral","Do piči","Anime moan","Já to jebu","Čo ti jebe","Oof","Cunt","Drž piču štětka","Spit","Zeus"]},{"name":"Earrape","files":["cockout.mp3","zolikstul.mp3","angrychineese.mp3","aaarhhg.mp3","fitta.mp3","coooo.mp3","chipsyasmr.mp3","doorstuck.mp3"],"fancy":["He's pulling his cock out","Žolik stůl","Angry chineese man","AAARGHH","FITTA - CUNT","Čoooo?","Chipsy ASMR","Door stuck"]},{"name":"Memes","files":["blblblbl.mp3","cojetypico.mp3","takovyhlesvine.mp3","virus.mp3","dinglehere.mp3","kaboom.mp3"],"fancy":["blblblbl","Co je ty píčo?","Takovýhle svině","Hello, your computer has a virus","Hello guys, Quandale dingle here","Kaboom?"]}]
+[
+    {
+      "name": "Jiří Kára",
+      "files": [
+        "delej.mp3",
+        "drzhubu.mp3",
+        "samozrejme.mp3"
+      ],
+      "fancy": [
+        "Dělej",
+        "Drž hubu",
+        "Samozřejmě"
+      ]
+    },
+    {
+      "name": "Ptácek",
+      "files": [
+        "tyzmrde.mp3",
+        "lizani.mp3",
+        "nerikejmizmrde.mp3"
+      ],
+      "fancy": [
+        "Ty zmrde",
+        "Lízání",
+        "Neříkej mi zmrde"
+      ]
+    },
+    {
+      "name": "Lochy",
+      "files": [
+        "jednadvetri.mp3",
+        "dychani.mp3",
+        "takjajsemopetzde.mp3"
+      ],
+      "fancy": [
+        "Jedna, dvě, tři",
+        "Dýchání",
+        "Tak já jsem opět zde"
+      ]
+    },
+    {
+      "name": "Svarta",
+      "files": [
+        "delejdelej.mp3",
+        "notaktojsemnevidel.mp3",
+        "svartajetineco.mp3",
+        "hovno.mp3",
+        "jemuhodne.mp3"
+      ],
+      "fancy": [
+        "Dělej dělej",
+        "No tak to jsem neviděl",
+        "Svarta, je ti něco?",
+        "Hovno",
+        "Je mu hodně"
+      ]
+    },
+    {
+      "name": "Reakce",
+      "files": [
+        "noice.mp3",
+        "benno.mp3",
+        "benyes.mp3",
+        "ben.mp3",
+        "notaktone.mp3",
+        "bruh.mp3",
+        "skillissue.mp3",
+        "somsadosral.mp3",
+        "dopici.mp3",
+        "anime.mp3",
+        "jatojebu.mp3",
+        "cotijebe.mp3",
+        "oof.mp3",
+        "cunt.mp3",
+        "stetka.mp3",
+        "spit.mp3",
+        "zeus.mp3"
+      ],
+      "fancy": [
+        "Noice",
+        "Ben - No",
+        "Ben - Yes",
+        "Ben?",
+        "No tak to ne",
+        "Bruh",
+        "Skill issue",
+        "Som sa dosral",
+        "Do piči",
+        "Anime moan",
+        "Já to jebu",
+        "Čo ti jebe",
+        "Oof",
+        "Cunt",
+        "Drž piču štětka",
+        "Spit",
+        "Zeus"
+      ]
+    },
+    {
+      "name": "Earrape",
+      "files": [
+        "cockout.mp3",
+        "zolikstul.mp3",
+        "angrychineese.mp3",
+        "aaarhhg.mp3",
+        "fitta.mp3",
+        "coooo.mp3",
+        "chipsyasmr.mp3",
+        "doorstuck.mp3"
+      ],
+      "fancy": [
+        "He's pulling his cock out",
+        "Žolik stůl",
+        "Angry chineese man",
+        "AAARGHH",
+        "FITTA - CUNT",
+        "Čoooo?",
+        "Chipsy ASMR",
+        "Door stuck"
+      ]
+    },
+    {
+      "name": "Memes",
+      "files": [
+        "blblblbl.mp3",
+        "cojetypico.mp3",
+        "takovyhlesvine.mp3",
+        "virus.mp3",
+        "dinglehere.mp3",
+        "kaboom.mp3"
+      ],
+      "fancy": [
+        "blblblbl",
+        "Co je ty píčo?",
+        "Takovýhle svině",
+        "Hello, your computer has a virus",
+        "Hello guys, Quandale dingle here",
+        "Kaboom?"
+      ]
+    }
+  ]
