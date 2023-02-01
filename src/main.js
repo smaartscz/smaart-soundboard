@@ -1,8 +1,7 @@
 const audio = new Audio();
 const output = document.querySelector('.output');
-var test 
 //Load buttons on startup
-document.addEventListener('DOMContentLoaded', loadButtons(), false); 
+document.addEventListener('DOMContentLoaded', loadButtons, false); 
 
 async function loadButtons(){
   const file = await getJSON("buttons.json");
@@ -32,7 +31,7 @@ function stop() {
 }
 //Writing data into JSON file
 function saveJSON(data, file){
-  file = "./cfg/" + file;
+  file = "./src/cfg/" + file;
   const fs = require("fs");
   fs.writeFileSync(file, JSON.stringify(data));
   console.log("JSONfile was saved successfully!");
@@ -42,7 +41,7 @@ function saveJSON(data, file){
 async function getJSON(file) {
   const fs = require("fs");
   return new Promise((resolve, reject) => {
-   fs.readFile("./cfg/" + file, "utf8", (err, JSONString) => {
+   fs.readFile("./src/cfg/" + file, "utf8", (err, JSONString) => {
       if (err) {
       console.log("File read failed:", err);
        reject(err);
@@ -79,13 +78,13 @@ async function setAudioDevice(){
       await audio.setSinkId(output);
     })
 }
+//Save audio settings picked up from select 
 async function saveSettings(){
 const AudioDevice = document.getElementById("audioOutputSelect");
 const AudioDeviceId = AudioDevice.value;
 const AudioDeviceName = AudioDevice.options[AudioDevice.selectedIndex].text;
 console.log("Received request for changing audio settings!");
 var data = await getJSON("settings.json");
-
 data[0].audio.output = AudioDeviceName
 data[0].audio.outputId = AudioDeviceId
 saveJSON(data, "settings.json");
@@ -106,7 +105,7 @@ async function htmlSettings(value) {
   value.forEach(function(audio) {
     //generate buttons for audio settings(device output, etc)
     html += `Current audio output: ${audio.audio.output}<br>`;
-    html += '<select id="audioOutputSelect">';
+    html += '<select class="audio-select" id="audioOutputSelect">';
     html += '</select>';
     html += '<br><button id="save" class="btn btn-save" onClick="saveSettings()">Save</button> ';
   });

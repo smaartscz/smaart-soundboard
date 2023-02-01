@@ -48,3 +48,9 @@ body {
 ::-webkit-scrollbar {
     display: none;
 }
+.audio-select{
+    position: relative;
+    font-family: inherit;
+    background-color: #004FFF;
+}
+
