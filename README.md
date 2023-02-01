@@ -1,7 +1,7 @@
 # ⚠ This is very early prototype! ⚠
 # Soundboard based on JavaScript and Electron
 
-![Image1](img/0.2.3-alpha.png)
+![Image1](img/0.2.3-alpha.gif)
 ## Quick intro
 Everyone wants to play funny sound effects in voice chat, but every soundboard I found didn't met my expectations so I decided to make my own(sort of).
 Currently it's very early build but maybe if I gave it more time and some polishing this can meet my expectations for ideal soundboard.
