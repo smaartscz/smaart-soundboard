@@ -35,11 +35,16 @@ body {
 }
 .btn-stop{
     background-color: #DF2935;
-    width: 98.5%;
+    width:  87%;;
     height: 30%;
 
 }
-
+.btn-cancel{
+    background-color: #DF2935;
+}
+.btn-save{
+    background-color: #315C2B;
+}
 ::-webkit-scrollbar {
     display: none;
 }
