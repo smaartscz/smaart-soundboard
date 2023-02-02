@@ -41,11 +41,11 @@
     "extraResources": [
       {
         "from": "src/audio",
-        "to": "../audio"
+        "to": "../audio/"
       },
       {
         "from": "src/cfg",
-        "to": "../cfg"
+        "to": "../cfg/"
       }
     ]
   },
