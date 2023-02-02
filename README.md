@@ -6,6 +6,12 @@ Everyone wants to play funny sound effects in voice chat, but every soundboard I
 Currently it's very early build but maybe if I gave it more time and some polishing this can meet my expectations for ideal soundboard.
 
 GUI is based on my [Wemos voicemeeter soundboard](https://github.com/smaartscz/Wemos-Voicemeeter/) but it's made to work independently.
+# Features
+- Selecting custom audio output
+- Creating new categories
+- Creating new sounds
+- Removing unwanted categories
+- Removing unwanted sound effects
 
 # Quick start guide
 You can download executable from [releases](../../releases/). Install soundboard and open it.
