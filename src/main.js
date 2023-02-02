@@ -23,7 +23,7 @@ function isPlaying(){
 async function play(clicked_id) {
   isPlaying();
   setAudioDevice();
-  audio.src = "audio/" + clicked_id
+  audio.src = "../../../audio/" + clicked_id
   audio.play();
 }
 //Stop audio

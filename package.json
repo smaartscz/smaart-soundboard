@@ -36,7 +36,8 @@
   "build": {
     "appId": "smaart.soundboard",
     "win": {
-      "icon": "/img/icon.png"
+      "icon": "/img/icon.png",
+      "asar": "false"
     },
     "extraResources": [
       {
@@ -48,6 +49,7 @@
         "to": "../cfg/"
       }
     ]
+    
   },
   "bugs": {
     "url": "https://github.com/smaartscz/electron-soundboard/issues"
