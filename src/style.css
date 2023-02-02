@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+* {
+    box-sizing: border-box;
+}
+body {
+    background-color: 	#2A2D34;
+    color: #E6E8E6;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+.btn {
+    background-color: #004FFF;
+    border-radius: 5px;
+    border: none;
+    color: #E6E8E6;
+
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.btn-primary{
+    margin: 1rem;
+    padding: 1.5rem 3rem;
+    font-size: 1.3rem;
+    font-family: inherit;
+    font-weight: bold;
+}
+.btn:focus {
+    outline: none;
+}
+
+.btn:active{
+    transform: scale(0.8);
+    transform: translateY(4px);
+}
+.btn-stop{
+    background-color: #DF2935;
+    width: 1652px;
+    height: 80px;
+    font-size: 1.3rem;
+    font-family: inherit;
+    font-weight: bold;
+
+}
+.btn-cancel{
+    background-color: #DF2935;
+    margin: 1rem;
+    padding: 1.5rem 3rem;
+    font-size: 1.3rem;
+    font-family: inherit;
+    font-weight: bold;
+}
+.btn-save{
+    background-color: #315C2B;
+    margin: 1rem;
+    padding: 1.5rem 3rem;
+    font-size: 1.3rem;
+    font-family: inherit;
+    font-weight: bold;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+.btn-delete{
+    background-color: #DF2935;
+    margin: auto;
+    padding: auto auto;
+    font-family: inherit;
+}
+.btn-newCategory{
+    background-color: #315C2B;
+    margin: auto;
+    padding: auto auto;
+    font-family: inherit;
+}
