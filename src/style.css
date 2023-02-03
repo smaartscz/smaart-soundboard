@@ -37,12 +37,11 @@ body {
 }
 .btn-stop{
     background-color: #DF2935;
-    width: 1652px;
+    width: 1500px;
     height: 80px;
     font-size: 1.3rem;
     font-family: inherit;
     font-weight: bold;
-
 }
 .btn-cancel{
     background-color: #DF2935;
@@ -76,4 +75,10 @@ body {
     margin: auto;
     padding: auto auto;
     font-family: inherit;
+}
+.header{
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    padding: 1.5rem 3rem;
 }
