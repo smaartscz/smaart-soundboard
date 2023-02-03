@@ -1,8 +1,6 @@
 const audio = new Audio();
 const output = document.querySelector('.output');
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-let allowMixing; (async () => {const data = await getJSON("settings.json"); allowMixing = data[0].audio.allowMixing;})();
-let audioFileSource, microphoneSource;
 let fileName;
 //Load buttons on startup
 document.addEventListener('DOMContentLoaded', htmlButtons, false); 
@@ -74,45 +72,41 @@ async function createJSON(value) {
 }
 //Get list of audio output devices available on user's computer
 function getAudioOutputDevices(){
-navigator.mediaDevices.enumerateDevices()
-  .then(devices => {
-    const outputDevices = devices.filter(device => device.kind === 'audiooutput');
-    const audioOutputSelect = document.getElementById('audioOutputSelect');
-    outputDevices.forEach(device => {
-      const option = document.createElement('option');
-      option.value = device.deviceId;
-      option.text = device.label || `Device ${device.deviceId}`;
-      audioOutputSelect.appendChild(option);
-    });
-});
-}
-function getAudioInputDevices(){
   navigator.mediaDevices.enumerateDevices()
     .then(devices => {
-      const outputDevices = devices.filter(device => device.kind === 'audioinput');
-      const audioOutputSelect = document.getElementById('audioInputSelect');
-      outputDevices.forEach(device => {
+     const outputDevices = devices.filter(device => device.kind === 'audiooutput');
+     const audioOutputSelect = document.getElementById('audioOutputSelect');
+     outputDevices.forEach(device => {
         const option = document.createElement('option');
         option.value = device.deviceId;
         option.text = device.label || `Device ${device.deviceId}`;
         audioOutputSelect.appendChild(option);
+    });
+});
+}
+async function getAudioInputDevices(){
+  navigator.mediaDevices.enumerateDevices()
+    .then(devices => {
+      const inputDevices = devices.filter(device => device.kind === 'audioinput');
+      const audioInputSelect = document.getElementById('audioInputSelect');
+      inputDevices.forEach(device => {
+        const option = document.createElement('option');
+        option.value = device.deviceId;
+        option.text = device.label || `Device ${device.deviceId}`;
+        audioInputSelect.appendChild(option);
       });
   });
-  }
+}
 
 //Set audio output to selected audio device
 async function setOutputAudioDevice(){
   //add function that will read audio settings from /cfg/settings.json
-  let output;
-  const settings = await getJSON("settings.json");
-    settings.forEach(async (ele) => {
-      if (ele.audio){
-        output = ele.audio.outputId;
-      }
-      await audio.setSinkId(output);
-    })
-    audio.volume = (settings[0].audio.fileVolume/100);
+  const data = await getJSON("settings.json");
+  const output = data[0].audio.outputId;
+  await audio.setSinkId(output);
+  audio.volume = (data[0].audio.fileVolume/100);
 }
+
 //Save audio settings picked up from select 
 async function saveAudioSettings(){
 //Get audio output settings
@@ -128,8 +122,12 @@ const inputAudioDevice = document.getElementById("audioInputSelect");
 const inputAudioDeviceName = inputAudioDevice.options[inputAudioDevice.selectedIndex].text;
 const inputAudioDeviceId = inputAudioDevice.value;
 
+//Get state of allowMixing
+const allowMixing = document.getElementById("allowMixing").checked;
+
 console.log("Received request for changing audio settings!");
 var data = await getJSON("settings.json");
+
 //Store audio output settings into object
 data[0].audio.output = outputAudioDeviceName
 data[0].audio.outputId = outputAudioDeviceId
@@ -141,60 +139,88 @@ data[0].audio.fileVolume = fileAudioVolume
 data[0].audio.input = inputAudioDeviceName
 data[0].audio.inputId = inputAudioDeviceId
 
+//Save state of allowMixing
+data[0].audio.allowMixing = allowMixing
+
 //Store data into settings.json
 saveJSON(data, "settings.json");
 
 //Load buttons page
 htmlButtons();
+
+//Reload webpage to refresh variable
+window.location.reload();
 }
+
 //Remove category selected by user
-async function removeCategory(value){
-  var file = await getJSON("buttons.json");
-  console.log("Received request for category removal: " + value)
-  file.splice(value, 1);
-  saveJSON(file, "buttons.json");
+async function removeCategory(index){
+  var data = await getJSON("buttons.json");
+  console.log("Received request for category removal: " + index)
+  data.splice(index, 1);
+  saveJSON(data, "buttons.json");
   buttonSettings()
 }
+
 //Remove audio effect selected by user
-async function removeSound(index, audioFile){
-  const file = getJSON("buttons.json");
-  console.log("Received request for sound removal: ")
-  console.log(index, file);
+async function removeSound(audioFile){
+  const fs = require("fs");
+  var data = await getJSON("buttons.json");
+  console.log("Received request for sound removal: " + audioFile)
+  for (let i = 0; i < data.length; i++) {
+    let index = data[i].files.indexOf(audioFile);
+    if (index !== -1) {
+      data[i].files.splice(index, 1);
+      data[i].fancy.splice(index, 1);
+    }
 }
+fs.unlink('audio/' + audioFile, (err) => {
+  if (err) throw err;
+  console.log(audioFile + ' was deleted');
+});
+saveJSON(data, "buttons.json");
+buttonSettings();
+}
+
 //Create new category
 async function createNewCategory(name){
-  var file = await getJSON("buttons.json");
-  console.log("Received request for creating new category: ");
+  var data = await getJSON("buttons.json");
+  console.log("Received request for creating new category: " + name);
   const newCategoryName = document.getElementById("newCategoryName");
-  console.log(newCategoryName.value);
   const index = Object.keys(file).length;
-  console.log(index);
-  file[index] = {};
-  file[index].category = newCategoryName.value;
-  file[index].files = [];
-  file[index].fancy = [];
-  saveJSON(file, "buttons.json");
+
+  //Template for category
+  data[index] = {};
+  data[index].category = newCategoryName.value;
+  data[index].files = [];
+  data[index].fancy = [];
+
+  //Save data
+  saveJSON(data, "buttons.json");
   buttonSettings();
 }
 //Create new sound
 async function createNewSound(){
-  var file = await getJSON("buttons.json");
+  var data = await getJSON("buttons.json");
+
+  //Load name and category from request
   const fancyName = document.getElementById("fancyName").value;
   const newAudioCategory = document.getElementById("newAudioCategory").value;
-  file[newAudioCategory].files.push(fileName);
-  file[newAudioCategory].fancy.push(fancyName);
-  console.log(file);
-  saveJSON(file, "buttons.json");
+  //Put config for button into corresponding category
+  data[newAudioCategory].files.push(fileName);
+  data[newAudioCategory].fancy.push(fancyName);
+  saveJSON(data, "buttons.json");
   buttonSettings();
 }
+
 //Function to handle file upload
 function handleFileUpload(event){
   const fs = require('fs');
   const reader = new FileReader();
   const files = event.target.files;
+  
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
-    fileName = file.name.replace(/[^\w\s]/gi, '').replace(/\s/g, '') + ".mp3";
+    fileName = file.name;
     const filePath = `audio/${fileName}`;
     reader.onload = function() {
       fs.writeFile(filePath, Buffer.from(reader.result), (err) => {
@@ -209,61 +235,49 @@ function handleFileUpload(event){
   }
 }
 
-async function requestMicrophoneAccess() {
-  const constraints = {
-    audio: true,
-    video: false
-  };
-
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    console.log("Microphone access granted.");
-    return stream;
-  } catch (err) {
-    console.error("Microphone access denied.", err);
-    return null;
-  }
-}
-
 //Mix audio from sound effect with user microphone
 async function mixMicWithAudio(){
+  const data = await getJSON("settings.json");
+  if(data[0].audio.allowMixing === true === true){
+  isPlaying();
+  const output = data[0].audio.outputId
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
   microphone = audioContext.createMediaStreamSource(stream);
+  audioContext.setSinkId(output)
   microphone.connect(audioContext.destination);
-}
 
-////////////////////////////////////////////////////////////////////
-//Generating HTML for settings page
+}
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Generating HTML
 async function htmlSettings() {
-  const file = await getJSON("settings.json");
-  let audioArr;
+  mixMicWithAudio();
+  const data = await getJSON("settings.json");
   let html = '<h1>SETTINGS</h1>';
   html += '<h2>General Settings</h2>';
-  file.forEach(function(general) {
     //generate buttons for general settings(language, etc)
-    html += `Language: ${general.general.language}`;
-  });
-
+    html += `Language: ${data[0].general.language}`;
   html += '<h2>Audio Settings</h2>';
-  file.forEach(function(audio){
-    audioArr = audio.audio;
-    //generate buttons for audio settings(device output, etc)
-    html += `Current audio output: ${audio.audio.output}<br>`;
-    html += '<select class="audio-select" id="audioOutputSelect"></select>';
-  });
-  file.forEach(function(audio){
-    audioArr = audio.audio;
-    html += `<br><br>Current audio output: ${audio.audio.input}<br>`;
-    html += '<select class="audio-select" id="audioInputSelect"></select>';
-  });
+      //generate buttons for audio settings(device output, etc)
+      html += `Current audio output: ${data[0].audio.output}<br>`;
+      html += '<select class="audio-select" id="audioOutputSelect"></select>';
+      html += `<br><br>Current audio output: ${data[0].audio.input}<br>`;
+      html += '<select id="audioInputSelect"></select>';
   getAudioOutputDevices();
   getAudioInputDevices();
+  html += `<br><br>Allow microphone passthrough: `;
+  html += `<input type="checkbox" id="allowMixing"></input>`;
   html += `<br><br>Change audio file volume: `;
-  html += `<input type="range" value="${audioArr.fileVolume}" id="audioFileVolume"></input>`;
-  html += '<br><button class="btn btn-primary" onClick="buttonSettings()">Edit buttons</button><button id="save" class="btn btn-save" onClick="saveAudioSettings()">Save</button> <button id="cancel" class="btn btn-cancel" onClick="htmlButtons()">Cancel</button>'
+  html += `<input type="range" value="${data[0].audio.fileVolume}" id="audioFileVolume"></input>`;
+  html += '<br><button id="save" class="btn btn-save" onClick="saveAudioSettings()">Save</button> <button class="btn btn-primary" onClick="buttonSettings()">Edit buttons</button> <button id="cancel" class="btn btn-cancel" onClick="htmlButtons()">Cancel</button>'
   output.innerHTML = html;
+  document.getElementById("audioOutputSelect").value = data[0].audio.outputId
+  document.getElementById("audioInputSelect").value = data[0].audio.inputId
+  document.getElementById("allowMixing").checked = data[0].audio.allowMixing
 }
+//Settings for buttons
 async function buttonSettings(){
+  mixMicWithAudio();
   const value = await getJSON("buttons.json");
   let html = '<h1>Buttons settings</h1>';
   html += '<h2>Categories <button id="createNewCategory" class="btn btn-newCategory" onClick="htmlNewCategory()">Create New Category</button></h2>';
@@ -281,6 +295,7 @@ async function buttonSettings(){
 }
 //Create new HTML for adding audio sounds
 async function htmlNewSound(value){
+  mixMicWithAudio();
   let html = '<h1>Add new category</h1>';
   html += 'Enter sound effect name: '
   html += '<input type="text" id="fancyName"><p>'
@@ -297,6 +312,7 @@ async function htmlNewSound(value){
   output.innerHTML = html;
 }
 async function htmlNewCategory(){
+  mixMicWithAudio();
   let html = '<h1>Add new category</h1>';
   html += 'Enter category name: '
   html += '<input type="text" id="newCategoryName">'
@@ -305,15 +321,14 @@ async function htmlNewCategory(){
 }
 //Generating HTML for buttons
 async function htmlButtons(){
-  const value = await getJSON("buttons.json")
+  const data = await getJSON("buttons.json")
+  mixMicWithAudio();
   let html = '<span class="header"><button id="stop" class="btn btn-stop" onClick="stop()">STOP PANIK EMERGENCY</button><button id="settings" class="btn btn-primary" onClick="htmlSettings();">Settings</button></span>';
-  value.forEach(function(nazev){
-    html += `<h2 style="text-align: center;">${nazev.category}</h2><p>`
-    nazev.files.forEach(function(file, index){
-      html += `<span><button id="${file}" class="btn btn-primary" onClick="play(this.id)">${nazev.fancy[index]}</button></span> `
+  data.forEach(function(buttons){
+    html += `<h2 style="text-align: center;">${buttons.category}</h2><p>`
+    buttons.files.forEach(function(file, index){
+      html += `<span><button id="${file}" class="btn btn-primary" onClick="play(this.id)">${buttons.fancy[index]}</button></span> `
     });
   });
   output.innerHTML = html;
 }
-
-if(allowMixing === true){mixMicWithAudio();}
