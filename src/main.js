@@ -1,8 +1,9 @@
 const audio = new Audio();
 const output = document.querySelector('.output');
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
+let allowMixing; (async () => {const data = await getJSON("settings.json"); allowMixing = data[0].audio.allowMixing;})();
 let audioFileSource, microphoneSource;
+let fileName;
 //Load buttons on startup
 document.addEventListener('DOMContentLoaded', htmlButtons, false); 
 
@@ -15,8 +16,8 @@ function isPlaying(){
 //Play selected audio
 async function play(clicked_id) {
   isPlaying();
-  setAudioDevice();
-  audio.src = "../../../audio/" + clicked_id
+  setOutputAudioDevice();
+  audio.src = "../audio/" + clicked_id
   audio.play();
 }
 //Stop audio
@@ -30,7 +31,6 @@ function saveJSON(data, file){
   const fs = require("fs");
   fs.writeFileSync(file, JSON.stringify(data));
   console.log("JSONfile was saved successfully!");
-  
 }
 
 //Reading data from JSON file
@@ -60,7 +60,7 @@ async function createJSON(value) {
       htmlButtons();
     break;
     case "settings.json":
-      file.push({"general": {"language": "en"}, "audio": {"outputId": "default", "volume": "100", "output": "Default audio output on your device!"}});
+      file.push({"general": {"language": "en"}, "audio": {"outputId": "default", "fileVolume": "100", "output": "Default audio output on your device!", "allowMixing":false, "inputId": "default", "input":"Default audio input on your device!"}});
       await fs.promises.mkdir("cfg/", { recursive: true });
       await fs.promises.writeFile("cfg/settings.json", JSON.stringify(file), "utf8");
       console.log("File successfully written.");
@@ -72,8 +72,8 @@ async function createJSON(value) {
 
 
 }
-//Get list of audio devices available on user's computer
-function getAudioDevices(){
+//Get list of audio output devices available on user's computer
+function getAudioOutputDevices(){
 navigator.mediaDevices.enumerateDevices()
   .then(devices => {
     const outputDevices = devices.filter(device => device.kind === 'audiooutput');
@@ -86,9 +86,22 @@ navigator.mediaDevices.enumerateDevices()
     });
 });
 }
+function getAudioInputDevices(){
+  navigator.mediaDevices.enumerateDevices()
+    .then(devices => {
+      const outputDevices = devices.filter(device => device.kind === 'audioinput');
+      const audioOutputSelect = document.getElementById('audioInputSelect');
+      outputDevices.forEach(device => {
+        const option = document.createElement('option');
+        option.value = device.deviceId;
+        option.text = device.label || `Device ${device.deviceId}`;
+        audioOutputSelect.appendChild(option);
+      });
+  });
+  }
 
 //Set audio output to selected audio device
-async function setAudioDevice(){
+async function setOutputAudioDevice(){
   //add function that will read audio settings from /cfg/settings.json
   let output;
   const settings = await getJSON("settings.json");
@@ -98,20 +111,40 @@ async function setAudioDevice(){
       }
       await audio.setSinkId(output);
     })
-    audio.volume = (settings[0].audio.volume/100);
+    audio.volume = (settings[0].audio.fileVolume/100);
 }
 //Save audio settings picked up from select 
 async function saveAudioSettings(){
-const AudioDevice = document.getElementById("audioOutputSelect");
-const AudioVolume = document.getElementById("audioVolume").value;
-const AudioDeviceId = AudioDevice.value;
-const AudioDeviceName = AudioDevice.options[AudioDevice.selectedIndex].text;
+//Get audio output settings
+const outputAudioDevice = document.getElementById("audioOutputSelect");
+const outputAudioDeviceId = outputAudioDevice.value;
+const outputAudioDeviceName = outputAudioDevice.options[outputAudioDevice.selectedIndex].text;
+
+//Get audio file volume
+const fileAudioVolume = document.getElementById("audioFileVolume").value;
+
+//Get audio input settings
+const inputAudioDevice = document.getElementById("audioInputSelect");
+const inputAudioDeviceName = inputAudioDevice.options[inputAudioDevice.selectedIndex].text;
+const inputAudioDeviceId = inputAudioDevice.value;
+
 console.log("Received request for changing audio settings!");
 var data = await getJSON("settings.json");
-data[0].audio.output = AudioDeviceName
-data[0].audio.outputId = AudioDeviceId
-data[0].audio.volume = AudioVolume
+//Store audio output settings into object
+data[0].audio.output = outputAudioDeviceName
+data[0].audio.outputId = outputAudioDeviceId
+
+//Store file volume into object
+data[0].audio.fileVolume = fileAudioVolume
+
+//Store audio input settings into object
+data[0].audio.input = inputAudioDeviceName
+data[0].audio.inputId = inputAudioDeviceId
+
+//Store data into settings.json
 saveJSON(data, "settings.json");
+
+//Load buttons page
 htmlButtons();
 }
 //Remove category selected by user
@@ -146,11 +179,10 @@ async function createNewCategory(name){
 //Create new sound
 async function createNewSound(){
   var file = await getJSON("buttons.json");
-  const newAudioName = document.getElementById("newAudioName").value;
+  const fancyName = document.getElementById("fancyName").value;
   const newAudioCategory = document.getElementById("newAudioCategory").value;
-  console.log(newAudioName + " " + newAudioCategory);
   file[newAudioCategory].files.push(fileName);
-  file[newAudioCategory].fancy.push(newAudioName);
+  file[newAudioCategory].fancy.push(fancyName);
   console.log(file);
   saveJSON(file, "buttons.json");
   buttonSettings();
@@ -160,7 +192,6 @@ function handleFileUpload(event){
   const fs = require('fs');
   const reader = new FileReader();
   const files = event.target.files;
-  let fileName;
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
     fileName = file.name.replace(/[^\w\s]/gi, '').replace(/\s/g, '') + ".mp3";
@@ -198,9 +229,6 @@ async function requestMicrophoneAccess() {
 async function mixMicWithAudio(){
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
   microphone = audioContext.createMediaStreamSource(stream);
-
-  audioFile = audioContext.createMediaElementSource(audio);
-  audioFile.connect(audioContext.destination);
   microphone.connect(audioContext.destination);
 }
 
@@ -223,10 +251,15 @@ async function htmlSettings() {
     html += `Current audio output: ${audio.audio.output}<br>`;
     html += '<select class="audio-select" id="audioOutputSelect"></select>';
   });
-
-  getAudioDevices();
-  html += `<br><br>Change audio volume: `;
-  html += `<input type="range" value="${audioArr.volume}" class="audio-value" id="audioVolume"></input>`;
+  file.forEach(function(audio){
+    audioArr = audio.audio;
+    html += `<br><br>Current audio output: ${audio.audio.input}<br>`;
+    html += '<select class="audio-select" id="audioInputSelect"></select>';
+  });
+  getAudioOutputDevices();
+  getAudioInputDevices();
+  html += `<br><br>Change audio file volume: `;
+  html += `<input type="range" value="${audioArr.fileVolume}" id="audioFileVolume"></input>`;
   html += '<br><button class="btn btn-primary" onClick="buttonSettings()">Edit buttons</button><button id="save" class="btn btn-save" onClick="saveAudioSettings()">Save</button> <button id="cancel" class="btn btn-cancel" onClick="htmlButtons()">Cancel</button>'
   output.innerHTML = html;
 }
@@ -250,7 +283,7 @@ async function buttonSettings(){
 async function htmlNewSound(value){
   let html = '<h1>Add new category</h1>';
   html += 'Enter sound effect name: '
-  html += '<input type="text" id="newAudioName"><p>'
+  html += '<input type="text" id="fancyName"><p>'
   html += 'Select category: '
   html += '<select id="newAudioCategory">';
   const categories = await getJSON("buttons.json");
@@ -283,4 +316,4 @@ async function htmlButtons(){
   output.innerHTML = html;
 }
 
-mixMicWithAudio();
+if(allowMixing === true){mixMicWithAudio();}
