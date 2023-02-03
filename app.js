@@ -1,5 +1,5 @@
 const { app, BrowserWindow } = require('electron')
-
+const appVersion = app.getVersion();
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -12,7 +12,6 @@ const createWindow = () => {
       contextIsolation: false
    }
   })
-
   win.loadFile('./src/index.html')
 }
 
