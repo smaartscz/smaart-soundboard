@@ -4,3 +4,4 @@ forge.config.js
 out/
 node_modules/
 dist/
+cfg/buttons.json
