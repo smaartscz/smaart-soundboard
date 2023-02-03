@@ -1,7 +1,8 @@
 {
-  "name": "smaart_soundboard",
-  "version": "1.0.0",
-  "description": "Soundboard created in JavaScript",
+  "name": "smaart_soundboard-alpha",
+  "product_name": "Smaart Soundboard",
+  "version": "1.1.0-alpha",
+  "description": "Soundboard created in JavaScript and Electron!",
   "main": "app.js",
   "scripts": {
     "start": "electron-forge start",
@@ -36,20 +37,8 @@
   "build": {
     "appId": "smaart.soundboard",
     "win": {
-      "icon": "/img/icon.png",
-      "asar": "false"
-    },
-    "extraResources": [
-      {
-        "from": "src/audio",
-        "to": "../audio/"
-      },
-      {
-        "from": "src/cfg",
-        "to": "../cfg/"
-      }
-    ]
-    
+      "icon": "/img/icon.png"
+    }
   },
   "bugs": {
     "url": "https://github.com/smaartscz/electron-soundboard/issues"
