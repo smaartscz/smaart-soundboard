@@ -28,17 +28,29 @@
     "@electron-forge/maker-squirrel": "^6.0.4",
     "@electron-forge/maker-zip": "^6.0.4",
     "electron": "^23.0.0-beta.8",
-    "electron-builder": "^23.6.0"
+    "electron-builder": "^22.10.3"
   },
   "dependencies": {
     "electron-json-storage": "^4.6.0",
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "i18next": "^22.4.9"
   },
   "build": {
     "appId": "smaart.soundboard",
     "win": {
       "icon": "/img/icon.png"
-    }
+    },
+    "extraFiles":[
+      {
+        "from": "src/cfg/languages.json",
+        "to": "cfg/languages.json"
+      },
+      {
+        "from": "src/locales",
+        "to": "locales/"
+
+      }
+    ]
   },
   "bugs": {
     "url": "https://github.com/smaartscz/electron-soundboard/issues"
