@@ -1,3 +1,5 @@
+const { changeLanguage } = require("i18next");
+const i18n = require('i18next');
 const audio = new Audio();
 const output = document.querySelector('.output');
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -5,6 +7,16 @@ let fileName;
 //Load buttons on startup
 document.addEventListener('DOMContentLoaded', htmlButtons, false); 
 
+i18n.init({
+  resources: {
+    en: {
+      translation: require('./locales/en.json')
+    },
+    cs: {
+      translation: require('./locales/cs.json')
+    }
+  }
+});
 
 //Checking if any audio is playing
 function isPlaying(){ 
@@ -84,6 +96,7 @@ function getAudioOutputDevices(){
     });
 });
 }
+//Get list of audio input devices available on user's computer
 async function getAudioInputDevices(){
   navigator.mediaDevices.enumerateDevices()
     .then(devices => {
@@ -107,8 +120,8 @@ async function setOutputAudioDevice(){
   audio.volume = (data[0].audio.fileVolume/100);
 }
 
-//Save audio settings picked up from select 
-async function saveAudioSettings(){
+//Save settings picked up from htmlSettings
+async function saveSettings(){
 //Get audio output settings
 const outputAudioDevice = document.getElementById("audioOutputSelect");
 const outputAudioDeviceId = outputAudioDevice.value;
@@ -124,6 +137,9 @@ const inputAudioDeviceId = inputAudioDevice.value;
 
 //Get state of allowMixing
 const allowMixing = document.getElementById("allowMixing").checked;
+
+//Get state of allowMixing
+const language = document.getElementById("languageSelect").value;
 
 console.log("Received request for changing audio settings!");
 var data = await getJSON("settings.json");
@@ -141,6 +157,9 @@ data[0].audio.inputId = inputAudioDeviceId
 
 //Save state of allowMixing
 data[0].audio.allowMixing = allowMixing
+
+//Save selected language
+data[0].general.language = language
 
 //Store data into settings.json
 saveJSON(data, "settings.json");
@@ -248,31 +267,63 @@ async function mixMicWithAudio(){
 
 }
 }
+
+//Show alert for reset do default
+function showAlert() {
+  var confirmResult = confirm("Are you sure you want to reset? This CAN NOT be undone!");
+  if (confirmResult == true) {
+    createJSON("buttons.json");
+    createJSON("settings.json");
+  }
+}
+
+//Set translation
+async function languageSelect(){
+  const languages = await getJSON("languages.json");
+  const languageSelect = document.getElementById('languageSelect')
+  const codes = languages[0].code;
+  const names = languages[0].name;
+  for (let i = 0; i < codes.length; i++) {
+    const option = document.createElement('option');
+    option.value = codes[i];
+    option.text = names[i]
+    languageSelect.appendChild(option);
+  };
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Generating HTML
 async function htmlSettings() {
   mixMicWithAudio();
   const data = await getJSON("settings.json");
-  let html = '<h1>SETTINGS</h1>';
-  html += '<h2>General Settings</h2>';
+  let html = '<h1 data-i18n-key="settings">SETTINGS</h1>';
+
     //generate buttons for general settings(language, etc)
+    html += '<h2>General Settings</h2>';
     html += `Language: ${data[0].general.language}`;
-  html += '<h2>Audio Settings</h2>';
-      //generate buttons for audio settings(device output, etc)
-      html += `Current audio output: ${data[0].audio.output}<br>`;
-      html += '<select class="audio-select" id="audioOutputSelect"></select>';
-      html += `<br><br>Current audio output: ${data[0].audio.input}<br>`;
-      html += '<select id="audioInputSelect"></select>';
-  getAudioOutputDevices();
-  getAudioInputDevices();
-  html += `<br><br>Allow microphone passthrough: `;
-  html += `<input type="checkbox" id="allowMixing"></input>`;
-  html += `<br><br>Change audio file volume: `;
-  html += `<input type="range" value="${data[0].audio.fileVolume}" id="audioFileVolume"></input>`;
-  html += '<br><button id="save" class="btn btn-save" onClick="saveAudioSettings()">Save</button> <button class="btn btn-primary" onClick="buttonSettings()">Edit buttons</button> <button id="cancel" class="btn btn-cancel" onClick="htmlButtons()">Cancel</button>'
+    html += '<br><br>Select your desired language:';
+    html += '<select id="languageSelect"></select>';
+    
+    //generate buttons for audio settings(device output, etc)
+    html += '<h2>Audio Settings</h2>';
+    html += `Current audio output: ${data[0].audio.output}<br>`;
+    html += '<select class="audio-select" id="audioOutputSelect"></select>';
+    html += `<br><br>Current audio output: ${data[0].audio.input}<br>`;
+    html += '<select id="audioInputSelect"></select>';
+    html += `<br><br>Allow microphone passthrough: `;
+    html += `<input type="checkbox" id="allowMixing"></input>`;
+    html += `<br><br>Change audio file volume: `;
+    html += `<input type="range" value="${data[0].audio.fileVolume}" id="audioFileVolume"></input>`;
+    html += '<br><button id="save" class="btn btn-save" onClick="saveSettings()">Save</button> <button class="btn btn-primary" onClick="buttonSettings()">Edit buttons</button> <button id="cancel" class="btn btn-cancel" onClick="htmlButtons()">Cancel</button>'
+    html += `<br><button id="save" class="btn btn-reset" onClick="showAlert()">Reset to factory settings</button>`
+  
+
+    //Call functions to fill select element
+    getAudioOutputDevices();
+    getAudioInputDevices();
+    languageSelect();
+    
+  //Show HTML
   output.innerHTML = html;
-  document.getElementById("audioOutputSelect").value = data[0].audio.outputId
-  document.getElementById("audioInputSelect").value = data[0].audio.inputId
   document.getElementById("allowMixing").checked = data[0].audio.allowMixing
 }
 //Settings for buttons
