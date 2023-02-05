@@ -1,0 +1,43 @@
+{
+  "settings": {
+    "name": "Settings",
+    "general": "General",
+    "audio": "Audio",
+    "current-audio-output": "Current audio output: ",
+    "current-audio-input": "Current audio input: ",
+    "allow-mic": "Allow microphone passthrough: ",
+    "change-audio-volume": "Change sound effect volume: ",
+    "reset-factory": "Reset settings",
+    "buttons": "Buttons settings",
+    "alert-factory-settings":"Are you sure you want to factory reset this app? This CAN NOT be reverted",
+    "change-language": "Select your language: ",
+    "backup": "Backup your settings",
+    "export-file": "Save file",
+    "export-select": "Select file for export: ",
+    "import-select": "Upload file for import: ",
+    "choose-file": "Select .json file",
+    "upload-file": "Upload file"
+  },
+  "createNew": {
+    "categories": "Category",
+    "sounds": "Sound effects",
+    "category": "Add new category",
+    "sound": "Create new sound effect",
+    "category-name": "Enter category name: ",
+    "sound-name": "Enter new sound effect name: ",
+    "select-category": "Select category: ",
+    "upload-file": "Upload your audio file: ",
+    "delete": "Delete",
+    "select-color": "Pick a color: ",
+    "upload-audio": "Select your sound effect file"
+  },
+  "general": {
+    "stop-panic": "STOP PANIC EMERGENCY",
+    "save": "Save",
+    "buttons": "Buttons",
+    "language": "Language: ",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "go-back": "Go back"
+}
+}

@@ -1,7 +1,8 @@
 {
   "name": "smaart_soundboard",
-  "version": "1.0.0",
-  "description": "Soundboard created in JavaScript",
+  "product_name": "Smaart Soundboard",
+  "version": "1.1.0",
+  "description": "Soundboard created in JavaScript and Electron!",
   "main": "app.js",
   "scripts": {
     "start": "electron-forge start",
@@ -26,30 +27,32 @@
     "@electron-forge/maker-rpm": "^6.0.4",
     "@electron-forge/maker-squirrel": "^6.0.4",
     "@electron-forge/maker-zip": "^6.0.4",
-    "electron": "^22.1.0",
-    "electron-builder": "^23.6.0"
+    "electron": "^23.0.0-beta.8",
+    "electron-builder": "^22.10.3"
   },
   "dependencies": {
+    "@andreasremdt/simple-translator": "^2.0.4",
+    "@electron/remote": "^2.0.9",
     "electron-json-storage": "^4.6.0",
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-remote": "^1.3.0",
+    "electron-squirrel-startup": "^1.0.0",
+    "i18next": "^22.4.9"
   },
   "build": {
     "appId": "smaart.soundboard",
     "win": {
-      "icon": "/img/icon.png",
-      "asar": "false"
+      "icon": "/img/icon.png"
     },
-    "extraResources": [
+    "extraFiles": [
       {
-        "from": "src/audio",
-        "to": "../audio/"
+        "from": "src/cfg/languages.json",
+        "to": "cfg/languages.json"
       },
       {
-        "from": "src/cfg",
-        "to": "../cfg/"
+        "from": "src/locales",
+        "to": "locales/"
       }
     ]
-    
   },
   "bugs": {
     "url": "https://github.com/smaartscz/electron-soundboard/issues"

@@ -16,7 +16,6 @@ body {
     border-radius: 5px;
     border: none;
     color: #E6E8E6;
-
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 }
@@ -37,12 +36,11 @@ body {
 }
 .btn-stop{
     background-color: #DF2935;
-    width: 1652px;
+    width: 1500px;
     height: 80px;
     font-size: 1.3rem;
     font-family: inherit;
     font-weight: bold;
-
 }
 .btn-cancel{
     background-color: #DF2935;
@@ -51,6 +49,20 @@ body {
     font-size: 1.3rem;
     font-family: inherit;
     font-weight: bold;
+}
+.btn-reset{
+    background-color: #DF2935;
+    font-size: 1.3rem;
+    font-family: inherit;
+}
+.btn-export{
+    background-color: #315C2B;
+}
+.btn-selectFile{
+    background-color: #315C2B;
+}
+.btn-import{
+    background-color: #DF2935;
 }
 .btn-save{
     background-color: #315C2B;
@@ -64,7 +76,6 @@ body {
     display: none;
 }
 
-
 .btn-delete{
     background-color: #DF2935;
     margin: auto;
@@ -76,4 +87,10 @@ body {
     margin: auto;
     padding: auto auto;
     font-family: inherit;
+}
+.header{
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    padding: 1.5rem 3rem;
 }
