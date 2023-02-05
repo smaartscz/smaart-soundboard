@@ -1,7 +1,7 @@
 {
-  "name": "smaart_soundboard-alpha",
+  "name": "smaart_soundboard",
   "product_name": "Smaart Soundboard",
-  "version": "1.1.0-alpha",
+  "version": "1.1.0",
   "description": "Soundboard created in JavaScript and Electron!",
   "main": "app.js",
   "scripts": {

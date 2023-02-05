@@ -450,7 +450,7 @@ async function htmlNewSound(){
   html += '<input type="color" id="select-color" value="#004FFF" />'
   html += '<br><br>'
   html += translator.translateForKey('createNew.upload-file',translator._currentLanguage)
-  html += '<input type="file" id="inputFile" style="display: none" accept=".mp3,audio/*"> <label for="inputFile" class="btn btn-selectFile">' + translator.translateForKey('settings.choose-file',translator._currentLanguage) +  '</label>'
+  html += '<input type="file" id="inputFile" style="display: none" accept=".mp3,audio/*"> <label for="inputFile" class="btn btn-selectFile">' + translator.translateForKey('createNew.upload-audio',translator._currentLanguage) +  '</label>'
   html += '<br><button class="btn btn-save" data-i18n="general.save" onClick="createNewSound()">Save</button> <button id="cancel" data-i18n="general.cancel" class="btn btn-cancel" onClick="buttonSettings()">Cancel</button>'
   output.innerHTML = html;
 }

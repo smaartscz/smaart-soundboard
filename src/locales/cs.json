@@ -28,7 +28,8 @@
     "select-category": "Vyberte kategorii: ",
     "upload-file": "Nahrajte audio soubor: ",
     "delete": "Smazat",
-    "select-color": "Vyberte si barvu tlačítka: "
+    "select-color": "Vyberte si barvu tlačítka: ",
+    "upload-audio": "Nahrajte zvukový efekt"
   },
   "general": {
     "stop-panic": "STOP PANIC EMERGENCY",

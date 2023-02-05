@@ -28,7 +28,8 @@
     "select-category": "Select category: ",
     "upload-file": "Upload your audio file: ",
     "delete": "Delete",
-    "select-color": "Pick a color: "
+    "select-color": "Pick a color: ",
+    "upload-audio": "Select your sound effect file"
   },
   "general": {
     "stop-panic": "STOP PANIC EMERGENCY",
