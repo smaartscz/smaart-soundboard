@@ -16,7 +16,8 @@ GUI is based on my [Wemos voicemeeter soundboard](https://github.com/smaartscz/W
 ### [Feature update 2](../../milestone/2)
 - Selecting custom audio volume
 - Passthrough for your microphone (Right now you need to use some kind of audio mixer - for example [Voicemeeter](https://vb-audio.com/Voicemeeter/))
-- Allow user to set custom color
+- Allow user to set custom color for buttons
+- Add localization
 ### [Feature update 3](../../milestone/3)
 - Add remote API for playing sound effects 
 # Quick start guide
