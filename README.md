@@ -1,6 +1,8 @@
 # Soundboard based on JavaScript and Electron
 
+
 ![Image1](img/1.1.0.gif)
+
 ## Quick intro
 Everyone wants to play funny sound effects in voice chat, but every soundboard I found didn't met my expectations so I decided to make my own(sort of).
 Currently it's very early build but maybe if I gave it more time and some polishing this can meet my expectations for ideal soundboard.
@@ -17,9 +19,12 @@ GUI is based on my [Wemos voicemeeter soundboard](https://github.com/smaartscz/W
 - Allow user to set custom color for buttons
 - Add localization
 - Allow to import/export settings
+
 ## Planned features
 ### [Feature update 3](../../milestone/3)
 - Add remote API for playing sound effects 
+
+
 # Quick start guide
 You can download executable from [releases](../../releases/). Install soundboard and open it.
 
@@ -30,6 +35,7 @@ Add new category and save it. Now you can add new sound effect.
 You will need to enter name for sound effect, select category color if you want and finally upload audio file(mp3, wav).
 
 Click on save and enjoy!
+
 ## Allowing microphone passthrough
 If you want to play sounds on voicechat you will need to create virtual audio input and output
 
