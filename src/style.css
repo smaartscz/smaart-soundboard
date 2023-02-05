@@ -55,6 +55,15 @@ body {
     font-size: 1.3rem;
     font-family: inherit;
 }
+.btn-export{
+    background-color: #315C2B;
+}
+.btn-selectFile{
+    background-color: #315C2B;
+}
+.btn-import{
+    background-color: #DF2935;
+}
 .btn-save{
     background-color: #315C2B;
     margin: 1rem;

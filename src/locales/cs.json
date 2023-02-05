@@ -1,27 +1,42 @@
 {
-    "settings": "Nastavení",
+  "settings": {
+    "name": "Nastavení",
     "general": "Obecné",
-    "save": "Uložit",
-    "buttons": "Tlačítka",
-    "stop-panic": "STOP PANIC EMERGENCY",
-    "language": "Jazyk",
     "audio": "Zvuk",
-    "current-audio-output": "Momentálně používaný audio výstup",
-    "current-audio-input": "Momentálně používaný audio vstup",
-    "allow-mic": "Povolit snímání mikrofonu",
-    "change-audio-file": "Změnit hlasitost zvukového efektu",
-    "edit": "Editovat",
-    "cancel": "Zrušit",
+    "current-audio-output": "Momentálně používaný audio výstup: ",
+    "current-audio-input": "Momentálně používaný audio vstup: ",
+    "allow-mic": "Povolit snímání mikrofonu: ",
+    "change-audio-volume": "Změnit hlasitost zvukového efektu: ",
     "reset-factory": "Obnovit do továrních nastavení",
-    "button-settings": "Nastavení tlačítek",
+    "buttons": "Nastavení tlačítek",
+    "alert-factory-settings":"Jste si jistí, že chcete obnovit nastavení do továrního nastavení? Tuto akci NELZE vrátit!",
+    "change-language": "Vyberte si Váš požadovaný jazyk: ",
+    "backup": "Záloha dat",
+    "export-file": "Uložit soubor",
+    "export-select":"Vyberte si soubor pro uložení: ",
+    "import-select":"Vyberte soubor, který budete nahrávat: ",
+    "choose-file": "Vyberte soubor",
+    "upload-file": "Nahrát soubor"
+  },
+  "createNew": {
     "categories": "Kategorie",
     "sounds": "Zvukové efekty",
-    "new-category": "Vytvořit novou kategorii",
-    "new-sound": "Přidat nový zvukový efekt",
-    "go-back": "Zpět",
-    "category-name": "Zadejte název Kategorie",
-    "sound-name": "Zadejte název zvukového efektu",
-    "select-category": "Vyberte kategorii",
-    "upload-file": "Nahrajte audio soubor",
-    "alert-factory-settings":"Jste si jistí, že chcete obnovit nastavení do továrního nastavení? Tuto akci NELZE vrátit!"
-  }
+    "category": "Vytvořit novou kategorii",
+    "sound": "Přidat nový zvukový efekt",
+    "category-name": "Zadejte název kategorie: ",
+    "sound-name": "Zadejte název zvukového efektu: ",
+    "select-category": "Vyberte kategorii: ",
+    "upload-file": "Nahrajte audio soubor: ",
+    "delete": "Smazat",
+    "select-color": "Vyberte si barvu tlačítka: "
+  },
+  "general": {
+    "stop-panic": "STOP PANIC EMERGENCY",
+    "save": "Uložit",
+    "buttons": "Tlačítka",
+    "language": "Jazyk: ",
+    "edit": "Editovat",
+    "cancel": "Zrušit",
+    "go-back": "Zpět"
+}
+}

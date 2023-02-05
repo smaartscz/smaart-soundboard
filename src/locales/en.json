@@ -1,27 +1,42 @@
 {
-    "settings": "Settings",
+  "settings": {
+    "name": "Settings",
     "general": "General",
+    "audio": "Audio",
+    "current-audio-output": "Current audio output: ",
+    "current-audio-input": "Current audio input: ",
+    "allow-mic": "Allow microphone passthrough: ",
+    "change-audio-volume": "Change sound effect volume: ",
+    "reset-factory": "Reset settings",
+    "buttons": "Buttons settings",
+    "alert-factory-settings":"Are you sure you want to factory reset this app? This CAN NOT be reverted",
+    "change-language": "Select your language: ",
+    "backup": "Backup your settings",
+    "export-file": "Save file",
+    "export-select": "Select file for export: ",
+    "import-select": "Upload file for import: ",
+    "choose-file": "Select .json file",
+    "upload-file": "Upload file"
+  },
+  "createNew": {
+    "categories": "Category",
+    "sounds": "Sound effects",
+    "category": "Add new category",
+    "sound": "Create new sound effect",
+    "category-name": "Enter category name: ",
+    "sound-name": "Enter new sound effect name: ",
+    "select-category": "Select category: ",
+    "upload-file": "Upload your audio file: ",
+    "delete": "Delete",
+    "select-color": "Pick a color: "
+  },
+  "general": {
+    "stop-panic": "STOP PANIC EMERGENCY",
     "save": "Save",
     "buttons": "Buttons",
-    "stop-panic": "STOP PANIC EMERGENCY",
-    "language": "Language",
-    "audio": "Audio",
-    "current-audio-output": "Current audio output",
-    "current-audio-input": "Current audio input",
-    "allow-mic": "Allow microphone passthrough",
-    "change-audio-file": "Change audio file volume",
+    "language": "Language: ",
     "edit": "Edit",
     "cancel": "Cancel",
-    "reset-factory": "Reset to factory settings",
-    "button-settings": "Button settings",
-    "categories": "Categories",
-    "sounds": "Sounds",
-    "new-category": "Create new category",
-    "new-sound": "Add new sound effect",
-    "go-back": "Go back",
-    "category-name": "Enter category name",
-    "sound-name": "Enter sound effect name",
-    "select-category": "Select category",
-    "upload-file": "Upload your audio file",
-    "alert-factory-settings":"Are you sure you want to reset settings to factory defaults? This CAN NOT be reverted!"
-  }
+    "go-back": "Go back"
+}
+}

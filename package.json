@@ -31,7 +31,10 @@
     "electron-builder": "^22.10.3"
   },
   "dependencies": {
+    "@andreasremdt/simple-translator": "^2.0.4",
+    "@electron/remote": "^2.0.9",
     "electron-json-storage": "^4.6.0",
+    "electron-remote": "^1.3.0",
     "electron-squirrel-startup": "^1.0.0",
     "i18next": "^22.4.9"
   },
@@ -40,7 +43,7 @@
     "win": {
       "icon": "/img/icon.png"
     },
-    "extraFiles":[
+    "extraFiles": [
       {
         "from": "src/cfg/languages.json",
         "to": "cfg/languages.json"
@@ -48,7 +51,6 @@
       {
         "from": "src/locales",
         "to": "locales/"
-
       }
     ]
   },
