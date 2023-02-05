@@ -40,6 +40,7 @@
   },
   "build": {
     "appId": "smaart.soundboard",
+    "asar": false,
     "win": {
       "icon": "/img/icon.png"
     },
