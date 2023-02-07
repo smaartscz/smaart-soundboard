@@ -19,11 +19,12 @@ GUI is based on my [Wemos voicemeeter soundboard](https://github.com/smaartscz/W
 - Allow user to set custom color for buttons
 - Add localization
 - Allow to import/export settings
-
-## Planned features
-### [Feature update 3](../../milestone/3)
 - Add remote API for playing sound effects 
 
+## Remote control
+Right now there are no available clients for remote control.
+
+Comming soon!
 
 # Quick start guide
 You can download executable from [releases](../../releases/). Install soundboard and open it.
