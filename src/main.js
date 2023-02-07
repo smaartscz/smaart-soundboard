@@ -1,21 +1,24 @@
 const audio = new Audio();
 const output = document.querySelector('.output');
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-let fileName, test;
+const http = require('http');
+const url = require('url');
+var Translator = require('@andreasremdt/simple-translator');
+
 //Load buttons on startup
 document.addEventListener('DOMContentLoaded', htmlButtons, false); 
 
-var Translator = require('@andreasremdt/simple-translator');
+
 var translator = new Translator({
   filesLocation: 'locales/',
 });
-
 
 //Checking if any audio is playing
 function isPlaying(){ 
   if(audio.duration > 0 && !audio.paused)
   return;
 }
+
 //Play selected audio
 async function play(clicked_id) {
   isPlaying();
@@ -23,11 +26,13 @@ async function play(clicked_id) {
   audio.src = "../../../audio/" + clicked_id
   audio.play();
 }
+
 //Stop audio
 function stop() {
   audio.pause();
   audio.currentTime = 0;
 }
+
 //Writing data into JSON file
 function saveJSON(data, file){
   file = "cfg/" + file;
@@ -50,6 +55,7 @@ async function getJSON(file) {
    });
   });
 }
+
 //Create config files if they don't exist!
 async function createJSON(value) {
   console.log("Received request for creating: " + value)
@@ -75,6 +81,7 @@ async function createJSON(value) {
 
 
 }
+
 //Get list of audio output devices available on user's computer
 function getAudioOutputDevices(){
   navigator.mediaDevices.enumerateDevices()
@@ -220,7 +227,7 @@ async function createNewCategory(name){
 //Create new sound
 async function createNewSound(){
   var data = await getJSON("buttons.json");
-  fileName = await handleFileUpload();
+  const fileName = await handleFileUpload();
   //Load name and category from request
   const fancyName = document.getElementById("fancyName").value;
   const audioCategory = document.getElementById("newAudioCategory").value;
@@ -229,8 +236,6 @@ async function createNewSound(){
   data[audioCategory].files.push(fileName);
   data[audioCategory].fancy.push(fancyName);
   data[audioCategory].color.push(color);
-  test = data[audioCategory]
-  console.log(test)
   saveJSON(data, "buttons.json");
   buttonSettings();
 }
@@ -352,6 +357,47 @@ async function importFile(){
     }
   };
 }
+
+//Create API server for listening to commands
+async function createApiServer(port) {
+  const data = await getJSON("buttons.json");
+  const requestHandler = (request, response) => {
+      const urlParts = url.parse(request.url, true);
+      const queryData = urlParts.query;
+      const id = queryData.id;
+  
+      switch (true) {
+        case urlParts.pathname.startsWith('/play'):
+          console.log(`Received id: ${id}`);
+          play(id);
+          response.writeHead(200, { 'Content-Type': 'application/json' });
+          response.end(JSON.stringify({ id }));
+          break;
+        case urlParts.pathname.startsWith('/list'):
+          console.log("Received request for list");
+          response.writeHead(200, { 'Content-Type': 'application/json' });
+          response.end(JSON.stringify(data));
+          break;
+        case urlParts.pathname.startsWith('/stop'):
+          stop();
+          break;
+        default:       
+          response.writeHead(404);
+          response.end();
+      }
+  }
+
+  const server = http.createServer(requestHandler);
+
+  server.listen(port, (err) => {
+    if (err) {
+      return console.log('Something went wrong:', err);
+    }
+    console.log(`API server is listening on http://localhost:${port}`);
+  });
+}
+
+createApiServer(3000);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Generating HTML
 async function htmlSettings() {
