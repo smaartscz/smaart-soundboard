@@ -16,7 +16,10 @@
     "export-select": "Select file for export: ",
     "import-select": "Upload file for import: ",
     "choose-file": "Select .json file",
-    "upload-file": "Upload file"
+    "upload-file": "Upload file",
+    "api": "Remote control",
+    "api-allow": "Allow remote control: ",
+    "api-port": "Enter port for API: "
   },
   "createNew": {
     "categories": "Category",

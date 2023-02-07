@@ -16,7 +16,10 @@
     "export-select":"Vyberte si soubor pro uložení: ",
     "import-select":"Vyberte soubor, který budete nahrávat: ",
     "choose-file": "Vyberte soubor",
-    "upload-file": "Nahrát soubor"
+    "upload-file": "Nahrát soubor",
+    "api": "Dálkové ovládání",
+    "api-allow": "Povolit dálkové ovládání: ",
+    "api-port": "Zadejte port pro dálkové ovládání: "
   },
   "createNew": {
     "categories": "Kategorie",
