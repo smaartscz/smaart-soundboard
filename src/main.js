@@ -1,21 +1,24 @@
 const audio = new Audio();
 const output = document.querySelector('.output');
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-let fileName, test;
+const http = require('http');
+const url = require('url');
+var Translator = require('@andreasremdt/simple-translator');
+
 //Load buttons on startup
 document.addEventListener('DOMContentLoaded', htmlButtons, false); 
 
-var Translator = require('@andreasremdt/simple-translator');
+
 var translator = new Translator({
   filesLocation: 'locales/',
 });
-
 
 //Checking if any audio is playing
 function isPlaying(){ 
   if(audio.duration > 0 && !audio.paused)
   return;
 }
+
 //Play selected audio
 async function play(clicked_id) {
   isPlaying();
@@ -23,11 +26,13 @@ async function play(clicked_id) {
   audio.src = "../../../audio/" + clicked_id
   audio.play();
 }
+
 //Stop audio
 function stop() {
   audio.pause();
   audio.currentTime = 0;
 }
+
 //Writing data into JSON file
 function saveJSON(data, file){
   file = "cfg/" + file;
@@ -50,6 +55,7 @@ async function getJSON(file) {
    });
   });
 }
+
 //Create config files if they don't exist!
 async function createJSON(value) {
   console.log("Received request for creating: " + value)
@@ -63,7 +69,7 @@ async function createJSON(value) {
       htmlButtons();
     break;
     case "settings.json":
-      data.push({"general": {"languageCode": "en", "languageName": "English"}, "audio": {"outputId": "default", "fileVolume": "100", "output": "Default audio output on your device!", "allowMixing":false, "inputId": "default", "input":"Default audio input on your device!"}});
+      data.push({"general": {"languageCode": "en", "languageName": "English", "allowAPI": false, "apiPort": "3000"}, "audio": {"outputId": "default", "fileVolume": "100", "output": "Default audio output on your device!", "allowMixing":false, "inputId": "default", "input":"Default audio input on your device!"}});
       await fs.promises.mkdir("cfg/", { recursive: true });
       await fs.promises.writeFile("cfg/settings.json", JSON.stringify(data), "utf8");
       console.log("File successfully written.");
@@ -75,6 +81,7 @@ async function createJSON(value) {
 
 
 }
+
 //Get list of audio output devices available on user's computer
 function getAudioOutputDevices(){
   navigator.mediaDevices.enumerateDevices()
@@ -137,6 +144,9 @@ const language = document.getElementById("languageSelect");
 const languageCode = language.value;
 const languageName = language.options[language.selectedIndex].text
 
+//Get state of allowAPI
+const allowAPI = document.getElementById("allowAPI").checked;
+//const apiPort= document.getElementById("allowAPIPort").value;
 
 console.log("Received request for changing settings!");
 var data = await getJSON("settings.json");
@@ -159,6 +169,10 @@ data[0].audio.allowMixing = allowMixing
 data[0].general.languageCode = languageCode
 data[0].general.languageName = languageName
 
+//Save API settings
+data[0].general.allowAPI = allowAPI
+data[0].general.apiPort = "3000"
+
 //Store data into settings.json
 saveJSON(data, "settings.json");
 
@@ -166,7 +180,7 @@ saveJSON(data, "settings.json");
 htmlButtons();
 
 //Reload webpage to refresh variable
-//window.location.reload();
+window.location.reload();
 }
 
 //Remove category selected by user
@@ -220,7 +234,7 @@ async function createNewCategory(name){
 //Create new sound
 async function createNewSound(){
   var data = await getJSON("buttons.json");
-  fileName = await handleFileUpload();
+  const fileName = await handleFileUpload();
   //Load name and category from request
   const fancyName = document.getElementById("fancyName").value;
   const audioCategory = document.getElementById("newAudioCategory").value;
@@ -229,8 +243,6 @@ async function createNewSound(){
   data[audioCategory].files.push(fileName);
   data[audioCategory].fancy.push(fancyName);
   data[audioCategory].color.push(color);
-  test = data[audioCategory]
-  console.log(test)
   saveJSON(data, "buttons.json");
   buttonSettings();
 }
@@ -259,7 +271,7 @@ function handleFileUpload(event){
 //Mix audio from sound effect with user microphone
 async function mixMicWithAudio(){
   const data = await getJSON("settings.json");
-  if(data[0].audio.allowMixing === true === true){
+  if(data[0].audio.allowMixing === true){
   isPlaying();
   const output = data[0].audio.outputId
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -301,6 +313,8 @@ async function changeLanguage(){
     translator.translatePageTo(data[0].general.languageCode);
 });
 }
+
+//Export selected file
 async function exportFile() {
   const { dialog } = require('@electron/remote');
   const path = require('path')
@@ -331,6 +345,7 @@ async function exportFile() {
 });
 };
 
+//Import selected file
 async function importFile(){
   const fs = require('fs')
   const type = document.getElementById("import").value; 
@@ -352,6 +367,58 @@ async function importFile(){
     }
   };
 }
+
+//Create API server for listening to commands
+async function createApiServer(port) {
+  const data = await getJSON("buttons.json");
+  const settings = await getJSON("settings.json");
+  if(settings[0].general.allowAPI){
+    const requestHandler = (request, response) => {
+      const urlParts = url.parse(request.url, true);
+      const queryData = urlParts.query;
+      const id = queryData.id;
+  
+      switch (true) {
+        case urlParts.pathname.startsWith('/play'):
+          console.log(`Received id: ${id}`);
+          play(id);
+          response.writeHead(200, { 'Content-Type': 'application/json' });
+          response.end(JSON.stringify({ id }));
+          break;
+        case urlParts.pathname.startsWith('/list'):
+          console.log("Received request for list");
+          response.writeHead(200, { 'Content-Type': 'application/json' });
+          response.end(JSON.stringify(data));
+          break;
+        case urlParts.pathname.startsWith('/stop'):
+          console.log(`Stopping playback`);
+          response.writeHead(200)  
+          response.end("Playback stopped!");
+          stop();
+          break;
+          case urlParts.pathname.startsWith('/api'):
+            console.log(`Sending API version`);
+            response.writeHead(200)
+            response.end("API version 1.0.0");
+          break;
+        default:       
+          response.writeHead(404);
+          response.end();
+      }
+  }
+
+  const server = http.createServer(requestHandler);
+
+  server.listen(port, (err) => {
+    if (err) {
+      return console.log('Something went wrong:', err);
+    }
+    console.log(`API server is listening on http://localhost:${port}`);
+  });
+}
+}
+
+createApiServer(3000);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Generating HTML
 async function htmlSettings() {
@@ -379,8 +446,14 @@ async function htmlSettings() {
     html += '<br><br>'
     html += translator.translateForKey('settings.change-audio-volume',translator._currentLanguage);
     html += `<input type="range" value="${data[0].audio.fileVolume}" id="audioFileVolume"></input>`;
-    html += '<br><button id="save" data-i18n="general.save" class="btn btn-save" onClick="saveSettings()">Save</button> <button class="btn btn-primary" data-i18n="settings.buttons" onClick="buttonSettings()">Edit buttons</button> <button id="cancel" data-i18n="general.cancel" class="btn btn-cancel" onClick="htmlButtons()">Cancel</button>'
     
+    //API settings
+    html += '<h1 data-i18n="settings.api">Remote control</h1>';
+    html += translator.translateForKey('settings.api-allow',translator._currentLanguage)
+    html += `<input type="checkbox" id="allowAPI"></input>`;
+ 
+    html += '<br><button id="save" data-i18n="general.save" class="btn btn-save" onClick="saveSettings()">Save</button> <button class="btn btn-primary" data-i18n="settings.buttons" onClick="buttonSettings()">Edit buttons</button> <button id="cancel" data-i18n="general.cancel" class="btn btn-cancel" onClick="htmlButtons()">Cancel</button>'
+
     //Import/export settings and factory reset
     html += '<h1 data-i18n="settings.backup">Export/Import settings</h1>';
     html += translator.translateForKey('settings.export-select',translator._currentLanguage)
@@ -406,6 +479,7 @@ async function htmlSettings() {
   //Show HTML
   output.innerHTML = html;
   document.getElementById("allowMixing").checked = data[0].audio.allowMixing
+  document.getElementById("allowAPI").checked = data[0].general.allowAPI
 }
 //Settings for buttons
 async function buttonSettings(){
