@@ -391,7 +391,15 @@ async function createApiServer(port) {
           response.end(JSON.stringify(data));
           break;
         case urlParts.pathname.startsWith('/stop'):
+          console.log(`Stopping playback`);
+          response.writeHead(200)  
+          response.end("Playback stopped!");
           stop();
+          break;
+          case urlParts.pathname.startsWith('/api'):
+            console.log(`Sending API version`);
+            response.writeHead(200)
+            response.end("API version 1.0.0");
           break;
         default:       
           response.writeHead(404);
