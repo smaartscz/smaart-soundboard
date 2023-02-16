@@ -1,7 +1,7 @@
 const audio = new Audio();
 const output = document.querySelector('.output');
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-const http = require('http');
+const WebSocket = require('ws');
 const url = require('url');
 var Translator = require('@andreasremdt/simple-translator');
 
@@ -368,56 +368,41 @@ async function importFile(){
   };
 }
 
-//Create API server for listening to commands
-async function createApiServer(port) {
-  const data = await getJSON("buttons.json");
-  const settings = await getJSON("settings.json");
-  if(settings[0].general.allowAPI){
-    const requestHandler = (request, response) => {
-      const urlParts = url.parse(request.url, true);
-      const queryData = urlParts.query;
-      const id = queryData.id;
+function createApiServer(port) {
+    const wss = new WebSocket.Server({ port });
+    wss.on('connection', (ws, req) => {
+      console.log('WebSocket connection established');
   
-      switch (true) {
-        case urlParts.pathname.startsWith('/play'):
-          console.log(`Received id: ${id}`);
-          play(id);
-          response.writeHead(200, { 'Content-Type': 'application/json' });
-          response.end(JSON.stringify({ id }));
-          break;
-        case urlParts.pathname.startsWith('/list'):
-          console.log("Received request for list");
-          response.writeHead(200, { 'Content-Type': 'application/json' });
-          response.end(JSON.stringify(data));
-          break;
-        case urlParts.pathname.startsWith('/stop'):
-          console.log(`Stopping playback`);
-          response.writeHead(200)  
-          response.end("Playback stopped!");
-          stop();
-          break;
+      ws.on('message', (message) => {
+        const urlParts = url.parse(req.url, true);
+        switch (true) {
+          case urlParts.pathname.startsWith('/play'):
+            const id = message.toString();
+            console.log(`Received id: ${id}`);
+            play(id);
+            ws.send(JSON.stringify({ id }));
+            break;
+          case urlParts.pathname.startsWith('/list'):
+            console.log("Received request for list");
+            ws.send(JSON.stringify(data));
+            break;
+          case urlParts.pathname.startsWith('/stop'):
+            console.log(`Stopping playback`);
+            stop();
+            ws.send("Playback stopped!");
+            break;
           case urlParts.pathname.startsWith('/api'):
             console.log(`Sending API version`);
-            response.writeHead(200)
-            response.end("API version 1.0.0");
-          break;
-        default:       
-          response.writeHead(404);
-          response.end();
-      }
+            ws.send("API version 1.0.0");
+            break;
+          default:
+            ws.send(JSON.stringify({ error: 'Invalid request' }));
+            break;
+        }
+      });
+    });
   }
-
-  const server = http.createServer(requestHandler);
-
-  server.listen(port, (err) => {
-    if (err) {
-      return console.log('Something went wrong:', err);
-    }
-    console.log(`API server is listening on http://localhost:${port}`);
-  });
-}
-}
-
+  
 createApiServer(3000);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Generating HTML
